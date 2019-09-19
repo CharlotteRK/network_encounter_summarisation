@@ -1,0 +1,15 @@
+Activity this week:
+N/A
+
+Goals for next week:
+- Draft DOER document
+- Begin looking at ethics form
+- Set up Mercurial repo
+
+Items to discuss in meeting:
+- Full or half year?
+- Mercurial or Git?
+
+Items agreed in meeting:
+- Full year project
+- Mercurial for version control, possible synced with Git (if it turns out to be easy)
