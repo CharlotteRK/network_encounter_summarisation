@@ -1,4 +1,4 @@
-cription
+Description
 
 The title of this project will be "Summarising Wireless Network Datasets". The aim will be to create a summarised report from large datasets in order to enable more efficient onwards processing of the data. This will mean using statistical approaches to maintain critical information from the dataset while reducing the overall quantity of data that must be stored and processed. With such large quantities of wireless traffic now travelling through networks at ever increasing rates, processing of this data can be challenging. By introducing a summarisation step before any main processing the overall efficiency of information extraction from wireless network datasets may be increased. The output summaries created may utilise an existing format if my research can identify an appropriate one. My project will produce a command line application involving new algorithmic approaches to summarisation to run over already collected datasets, the approach taken may (in this project or otherwise, dependent on time constraints) also be extended to work on datasets in real-time so as to eliminate the need for storing large datasets before summarisation. 
 
