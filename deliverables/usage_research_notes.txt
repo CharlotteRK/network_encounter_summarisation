@@ -1,0 +1,56 @@
+The usage of the dartmouth/campus CRAWDAD dataset is primarily regarding network mobility, DTNs, and mobile offloading decisions. As such, the most often needed information seems to be node identifiers (for mobile nodes and static access points) and timestamps associated with connections.
+
+There is also research using the dartmouth campus data regarding SDNs and wideband small cell networking. Uses such as these are much less widespread than the mobility studies, however they are still worth considering. They use a wider variety of data from the sets; bandwith, connection quality, MAC address, and transmission rate are all specifically mentioned.
+
+I have summarised what I found from 10 research papers which cited the dartmouth/campus CRAWDAD dataset in terms of their usage of it. To fully make this useful in the context of my project I need to compare it to the fields in the actual datasets, however I am currently having problems accessing them. My notes on the papers are below along with a few words describing the paper topic (full references will be in the write up of this).
+
+[1] Mobile offloading:
+
+	Access point (AP) id
+	Time of connection
+	Time to transmit data
+
+[2] SDN
+	Is AP in sleep mode?
+	Number of channels on link
+	Channel capacity
+	AP capacity
+	Gateway capacity
+	AP id
+	Transmission rate of link
+
+[3] Network selsction
+	Number of inbound and outbound bytes/packets/errors
+	Users associated with AP
+	MAC address
+	IP address
+	Signal strength/quality
+
+[4] Opportunistic routing
+	Mobile node (MN) id
+	AP id
+	Delivery delay - timestamps?
+
+[5] DTN - N/A as dartmouth set isn't used!
+	AP id
+	IP address
+	Timestamps
+
+[6] DTN
+	Bandwidth
+	Storage
+	(IP? AP id? Timestamps?) - Not explicitly mentioned but I'm not sure how the study could be done without these
+
+[7] WSN - N/A as dartmouth set isn't used!
+	TTL
+
+[8] Mobile offloading
+	Number of sessions per minute -> would need IP or MN id, timestamp, or possibly a session id; need to look at the dataset to determine what may have been used.
+
+[9] M2M & D2D communication
+	User id
+	AP id
+	Timestamp
+
+[10] Inter-contact time
+	Time that devices spend in contact with each other -> assume a user id or MAC address, timestamps, and AP ids
