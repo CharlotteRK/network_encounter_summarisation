@@ -5,8 +5,10 @@
 \author{Charlotte Knight}
 \date{September 2019}
 
-\usepackage{natbib}
+\usepackage{biblatex}
 \usepackage{graphicx}
+
+\bibliography{references}
 
 \begin{document}
 
@@ -19,12 +21,24 @@
 \section{Introduction}
 \input{intro.tex}
 
-\section{Usage}
+\section{CRAWDAD Usage}
 \input{usage.tex}
 
+\section{Format Selection}
+\input{format.tex}
 
+\section{Design of Code}
+\input{design.tex}
+
+\section{Implementation}
+\input{implementation.tex}
+
+\section{Outcome/Evaluation}
+\input{evaluation.tex}
 
 \newpage
-\bibliographystyle{plain}
-\bibliography{references}
+
+\nocite{*}
+\printbibliography
+
 \end{document}
