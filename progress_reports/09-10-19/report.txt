@@ -7,8 +7,14 @@ Activity this week:
 Goals for next week:
 - Gain access to datasets
 - Relate usage research to contents of datasets
-- Start looking at potential formats of output
+- Increase number of papers looked at in usage research
 
 Items to discuss in meeting:
 - Access to data; could try regerstering again with a different email?
 - How to cite the CRAWDAD website
+
+Points from meeting:
+- Usage results table should include more information to identify the papers used
+- 'Description' field in table inaccurately named
+- Should include more detail on the websearch performed to retrieve papers
+- Expand the search to at least 10 more well cited papers
