@@ -11,5 +11,6 @@ Goals for next week:
 
 Items to discuss in meeting:
 - Ethics form
+- I am again unable to download datasets from the CRAWDAD archive
 - N^{2} growth in size for any formats in which both encounter endpoints are uniquely identified - I've considered this unacceptable, how important would the missing information be?
 - Would adapting an existing format (and adding to it slightly) be an appropriate way to proceed, I've seen quite a few papers talking about the duration of encounters however none of the encounter reports from the ONE simulation include temporal information.  
