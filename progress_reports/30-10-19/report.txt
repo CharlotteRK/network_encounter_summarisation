@@ -3,14 +3,19 @@ Progress report for 16-10-19 to 30-10-19:
 Activity this week (and ILW):
 - Revised ethics application based on comments
 - Researched existing formats and written up findings - didn't find many well documented examples (as discussed in write up)
-- 
+- Looked at the Libpcap documentation and some basic how-tos.
 
 Goals for next week:
 - Finish with research into existing formats and revise the write up on it.
-- Use the research I have done to develop and document an initial format for the summaries.
+- Write a script to parse TCPDump formatted files and extract values relevent to encounters.
+- Access crawdad-test host using SSH.
 
 Items to discuss in meeting:
 - Ethics form
 - I am again unable to download datasets from the CRAWDAD archive
 - N^{2} growth in size for any formats in which both encounter endpoints are uniquely identified - I've considered this unacceptable, how important would the missing information be?
 - Would adapting an existing format (and adding to it slightly) be an appropriate way to proceed, I've seen quite a few papers talking about the duration of encounters however none of the encounter reports from the ONE simulation include temporal information.  
+
+Points taken from meeting:
+- At at point where I should be beginning to build a MVP.
+- Rather than downloading datasets through the website I'll use ssh to the mirror host at St Andrews.
