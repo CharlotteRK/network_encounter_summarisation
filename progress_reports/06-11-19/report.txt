@@ -2,14 +2,12 @@ Progress report for 30-10-19 to 06-11-19:
 
 Activity this week:
 - Have access to crawdad-test
-- Began scripting a parser for extracting values from TCPDump files
+- Began reading in pcap files - mainly just set up an environment
 - Uploadaed Ethics form to MMS
 
 Goals for next week:
-- Finish the parser script, write up
-- Start coding the main processing/summarising of the data
+- Finish the reading in, write up
+- Write code to interpret the values read (not yet do much with them)
 
 Items to discuss in meeting:
 - Is /cs/unique/tristan/download/dartmouth/campus the right place to be getting the datasets from?
-- Only 010929.0001.packets.gz seems to have any packet data in, is this expected?
-- Using an external tool (matshark) for interpreting these files
