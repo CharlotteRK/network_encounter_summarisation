@@ -1,0 +1,13 @@
+Progress report for 30-10-19 to 06-11-19:
+
+Activity this week:
+- Written python to unzip files and pass them to parser
+- Written parser to read in pcap files and retun basic statistcs
+
+Goals for next week:
+- Write up the reading in
+- Find all possible header valuse to use and decide which should be looked at
+- Consider the implications of the change over between files (currently just throwing away any leftover data from the first file)
+
+Items to discuss in meeting:
+- 
