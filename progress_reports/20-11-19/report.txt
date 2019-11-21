@@ -1,0 +1,13 @@
+Progress report for 20-10-19 to 27-11-19:
+
+Activity this week:
+- Switched from python script to bash for unzipping and inputting data to the program
+- Parser seperates out IPv4 packet headers over Ethernet
+
+Goals for next week:
+- Write up the last two weeks of work
+- Write structs and logic for ethertypes 00x0004 & 00x0806 (these are the 2nd and 3rd most common in the files)
+
+Items to discuss in meeting:
+- All packets are typed as Ethernet in the files I've looked at, I was expecting 802.11. Am I looking at an unusual set of file or is Ethernet expected?
+- Due to deadlines I'm expecting to get less time than usual to spend on this module next week
