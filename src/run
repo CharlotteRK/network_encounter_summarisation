@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for FILE in $(ls $1)
+do
+    (gzip -dc $1/$FILE | parse/parse -) 2>/dev/null
+done
