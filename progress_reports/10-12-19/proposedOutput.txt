@@ -1,0 +1,5 @@
+Thhe output will include a line for each distinct (unordered) pair of devices, the total number of encounters between them, and the average duration of the encounters in seconds. It will be formatter as a CSV file, as shown below:
+
+MN 1,MN 2,encounters,mean duration
+111.111.111.111,222.222.222.222,3,2000
+111.111.111.111,333.333.333.333,6,500
