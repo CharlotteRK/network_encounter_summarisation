@@ -1,6 +1,6 @@
-\subsection{Existing Formats for Aggregation of Network Traces in Mobility Research}
+\subsubsection{Existing Formats for Aggregation of Network Traces in Mobility Research}
 
-A lack of published information on the intermediate formats used while analysing network traces for mobility research has been found during this research. This is likely due to the encounter data not being the final outcome of the research taking place and therefore not being considered important enough to write up.
+A lack of published information on the intermediate formats used while analysing network traces for mobility research has been found during this survey. This is likely due to the encounter data not being the final outcome of the research taking place and therefore not being considered important enough to write up.
 
 Through varied searches of DTN, Mobility, and SDN research I have found only two examples of well documented formats for storing data on device encounters. The first of these, The ONE Simulator \cite{Keranen2009}, uses several reporting options to store device encounter data. The other documented format (from \cite{Thakur2012}) that was found was an association matrix. These two sources and and analysis of the information found in them is set out in the following section of this report.
 
@@ -16,9 +16,9 @@ The final report format from the ONE simulation which has been looked at is a co
 \subsubsection{Association Matrices}
 \citeauthor{Thakur2012} use an association matrix to record the percentage of time each node spends in an encounter with each other node. A matrix is created for each node, each column in the matrix corresponds to the other endpoint of the encounter, and each row corresponds to a time interval. The entry in each cell represents the percentage of the time interval spent in an encounter with the columns node. This format contains the most information out of all those discussed here, however also takes more space. The space taken will increase at with the square of the number of nodes.
 
-\input{format_table.tex}
+\input{context/format_table.tex}
 
-\subsection{Summary of Findings}
+\subsubsection{Summary of Findings}
 A very brief summary of the detail contained within each of the formats discussed above is given in Table \ref{formatTable}. Despite association matrices storing the most useful information, the polynomial increase in size with the number of mobile nodes makes using them potentially ineffective in the context of this project. The aim is to summarize a large amount of data into a smaller, easier to process format. In many cases association matrices would decrease the size of the data, but by a dramatically lesser amount than the other formats discussed here. Additionally it would be possible for the association matrix format to increase the quantity of data; for instance if $N$ nodes had $< N$ encounters each then the association matrix for each node would include at least one redundant column. The final reporting format discussed under the ONE simulation - EncountersVsUniqueEncounters - avoids this polynomial growth, with its size increasing only linearly with the number of mobile nodes in the network. It provides less complete information regarding the unique par of nodes between which the encounter occurred, there would however be no way to preserve this information while avoiding at least $N^{2}$ growth in size.
 
 It seems that the most complete format of those discussed in which to store encounter data while also guaranteeing a reduction in the quantity of data stored would be the EncountersVsUniqueEncounters report format. This format could also be easily modified to add additional fields such as statistics regarding encounter duration. Any additional fields would need to be carefully considered and justified in order to keep the data quantity reduction as high as possible.
