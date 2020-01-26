@@ -1,6 +1,7 @@
 #!/bin/bash
-
-for FILE in $(ls $1)
+echo "source,destination,start,fin,AP" > temp_associations.csv
+for FILE in $(find $1 -name '*.gz')
 do
-    (gzip -dc $1/$FILE | parse/parse -) 2>/dev/null
+    (gzip -dc $FILE | parse/parse -) >> temp_associations.csv
 done
+matlab -nosplash -nodesktop -r "associations;quit"
