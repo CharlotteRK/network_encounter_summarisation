@@ -23,11 +23,13 @@ struct ieee80211_hdr {
 };
 
 struct act_ieee80211_hdr {
-	u_short fc; //frame control
+	u_char type; //frame type
+	u_char fc; //frame control
 	u_short di; //duration/friame id
-	u_char reciever[6]; //reciever MAC
-	u_char transmitter[6]; //transmitter MAC
-	u_char source[6]; //source host MAC
+	u_char mac1[6];
+	u_char mac2[6];
+	u_char mac3[6];
+	u_char mac4[6];
 	u_short seq; //sequence control
 };
 
@@ -50,6 +52,7 @@ struct ether_hdr {
 	u_short ethertype; //ethertype
 };
 
+/* Comparison for mac addresses */
 struct comp_mac {
 	bool operator() (char const* mac1, char const* mac2) const {
 		return std::strcmp(mac1, mac2) < 0;

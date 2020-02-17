@@ -1,0 +1,32 @@
+Progress report for 06-02-20 to 17-02-20:
+
+Activity:
+- Written syslog parser which uses a (JSON) config file
+
+Goals for next week:
+- Neaten BASH script and switch to runtime generated temp files
+- Fix the 'random' segfault in the tcpdump parser code
+- Look at speeding up the MatLab code
+
+Items to discuss in meeting:
+- Aruba syslog format:
+
+1125561909 Sep 1 04:05:09 50.110.24.131 2005 [50.110.24.131] authmgr[643]: <INFO> station down <00:02:2d:46:1f:62> bssid 00:0b:86:14:5f:63, essid Kiewit Wireless, vlan 2834, ingress 0x1106 (tunnel 166), u_encr 1, m_encr 1, loc 167.4.2 slotport 0xfc3
+1125562125 Sep 1 04:08:45 50.110.24.131 2005 [50.110.24.131] authmgr[643]: <INFO> station up <00:0a:f4:b7:ac:da> bssid 00:0b:86:97:17:c8, essid Kiewit Wireless, vlan 72, ingress 0x117c (tunnel 284), u_encr 1, m_encr 1, loc 198.1.7 slotport 0xfc3
+1125562125 Sep 1 04:08:45 50.110.24.131 2005 [50.110.24.131] authmgr[643]: <INFO> station up <00:0a:f4:b7:ac:da> update station bssid to 00:0b:86:97:17:c8 (#users 1)
+
+From the README:
+
+Format of Aruba syslog records is as follows:
+
+unix_timestamp timestamp ip_address1 year [ip_address2] syslog_message
+
+- unix_timestamp : UNIX timestamp in UTC
+- timestamp, year : the time that the syslog message was received
+- ip_address1 : the (sanitized) IP address of the controller
+- ip_address2 : the (sanitized) IP address of another controller that sent this message.
+Sometimes the messages don't come directly from the controller, they come from a controller
+further down the tree.
+- syslog_message : syslog message content
+
+- The config file I'm using at the moment is using JSON, is there a more appropriate/conventional format for config files?

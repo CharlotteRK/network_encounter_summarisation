@@ -1,0 +1,54 @@
+#!/bin/bash
+format='tcpdump'
+input='./'
+start=$(date +%s)
+
+print_usage() {
+    echo "Usage: ./run <options>"
+    echo " "
+    echo "options:"
+    echo "-h,                    Show help"
+    echo "-f [format],           Specify input format"
+    echo "-i [input_dir],        Specify input directory"
+    exit 0
+}
+
+while getopts 'f:hi:' flag; do
+    case "${flag}" in
+        f) format="${OPTARG}"
+            ;;
+        h) print_usage
+            exit 1 ;;
+        i) input="${OPTARG}"
+            ;;
+        *) print_usage
+            exit 1 ;;
+    esac
+done
+
+echo "source,destination,start,fin,AP" > temp_associations.csv #TODO: temp files properly (mktmp??)
+echo "Unzipping .gz files from $input and extracting associations..."
+echo "Finding Associations..." >error.log
+if [[ "$format" == "tcpdump" ]]
+then
+    for FILE in $(find $input -name '*.gz')
+    do
+        (gzip -dc $FILE | parse_associations/parse_tcpdump -) 1>> temp_associations.csv #2>>error.log
+    done
+elif [[ "$format" == "syslog" ]]
+then
+    for FILE in $(find "$input" -name '*.gz')
+    do
+        (gzip -dc $FILE | python3 parse_associations/parse_syslog.py -) 1>> temp_associations.csv #2>>error.log
+    done
+fi
+echo "Finding access points and encounters..."
+(echo "MATLAB for Encounters...") >> error.log
+matlab -nosplash -nodesktop -r "find_encounters;quit" 1>/dev/null 2>>error.log
+#rm temp_associations.csv
+ap=$(cat access_points.csv | wc -l)
+end=$(date +%s)
+runtime=$(expr $end - $start)
+runtime=$(expr $runtime / 60)
+echo "Done! $(expr $ap - 1) access points were identified. This took $runtime minutes."
+#rm access_points.csv
