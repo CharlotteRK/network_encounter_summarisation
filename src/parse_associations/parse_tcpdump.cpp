@@ -49,9 +49,9 @@ int main(int argc,char *argv[]) {
 	u_char dataLinkHeader[dataLinkOffest];
 	strncpy(err, errbuf, 19);
 	if (strcmp(err, TRUNCATED_DUMP_FILE) != 0 && strcmp(err, UNKNOWN_FILE_FORMAT) != 0) {
-		struct bpf_program prog;
-		pcap_compile(pcap, &prog, "ether", 0, PCAP_NETMASK_UNKNOWN);
-		pcap_setfilter(pcap, &prog);
+		// struct bpf_program prog;
+		// pcap_compile(pcap, &prog, "ether", 0, PCAP_NETMASK_UNKNOWN);
+		// pcap_setfilter(pcap, &prog);
 		while (pcap_next_ex(pcap, &header, &data) > 0) {
 			//isolate the headers
 			const struct ether_hdr* ethernet;
@@ -116,8 +116,8 @@ int main(int argc,char *argv[]) {
 			//if an ethernet type file has been identified
 			else if (pkt_link_type == ETHERNET_TYPE) {
 				ethernet = (struct ether_hdr*)(data);
-				//const u_char broadcast[6] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
-				if(ethernet->dest_host[6] & 1) {
+				const u_char broadcast[6] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
+				if(memcmp(ethernet->dest_host, broadcast, 6) == 0) {
 					continue;
 				}
 				if (ntohs(ethernet->ethertype) == 0x0800) { //IPv4 Packet
