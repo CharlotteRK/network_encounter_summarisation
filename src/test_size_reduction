@@ -1,0 +1,67 @@
+#!/bin/bash
+format='tcpdump'
+input='./'
+output='./output_summary.csv'
+tmpdir=$(mktemp -d ../tmp.XXXXXX)
+tmpassoc=$(mktemp "${tmpdir}/summarise-associations.XXXXXX.csv")
+tmpaps=$(mktemp "${tmpdir}/access-points.XXXXXX.csv")
+
+print_usage() {
+    echo "Usage: ./run <options>"
+    echo " "
+    echo "options:"
+    echo "-h,                    Show help"
+    echo "-f [format],           Specify input format"
+    echo "-i [input_dir],        Specify input directory"
+    echo "-o [output_file],      Specify output file name"
+    exit 0
+}
+
+while getopts 'f:hi:o:' flag; do
+    case "${flag}" in
+        f) format="${OPTARG}"
+            ;;
+        h) print_usage
+            exit 1 ;;
+        i) input="${OPTARG}"
+            ;;
+        o) output="${OPTARG}"
+            ;;
+        *) print_usage
+            exit 1 ;;
+    esac
+done
+
+for DIR in ${input}/*/
+    do
+    start=$(date +%s)
+    nolines=0
+    echo "source,destination,start,fin,AP" > "${tmpassoc}"
+    if [[ "${format}" == "tcpdump" ]]
+    then
+        for FILE in $(find ${DIR} -name '*.gz')
+        do
+            lineshere=$(gzip -dc "${FILE}" | cat | wc -c)
+            (gzip -dc "${FILE}" | parse_associations/parse_tcpdump -) 1>> "${tmpassoc}"
+
+            nolines=$(expr ${nolines} + ${lineshere})
+        done
+    elif [[ "${format}" == "syslog" ]]
+    then
+        for FILE in $(find "${DIR}" -name '*.gz')
+        do
+            (gzip -dc "${FILE}" | python3 parse_associations/parse_syslog.py -) 1>> "${tmpassoc}"
+            nolines=$(expr ${nolines} + (gzip -dc "${FILE}" | cat | wc -c))
+        done
+    fi
+    matlab -nojvm -nodisplay -nosplash -batch "find_encounters('${tmpassoc}','${tmpaps}','${output}'); quit" 1>/dev/null
+    ap=$(cat ${tmpaps} | wc -l)
+    end=$(date +%s)
+    runtime=$(expr ${end} - ${start})
+    runtime=$(expr ${runtime} / 60)
+
+    outlines=$(cat ${output} | wc -c)
+    echo "input: ${nolines} bytes, output: ${outlines} bytes, runtime: ${runtime}, APs: $(expr ${ap} - 1)"
+    rm "${output}"
+done
+rm -r "${tmpdir}"

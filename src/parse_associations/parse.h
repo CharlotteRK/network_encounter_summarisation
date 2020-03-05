@@ -1,6 +1,22 @@
 #ifndef PARSE_HEADER
 #define PARSE_HEADER
 #include <netinet/in.h>
+
+const int ERR_LEN = 20; //bytes
+const int ETHERNET_TYPE = 1;
+const int IEEE802_11_TYPE = 2;
+const int ETHERNET_SIZE = 14; //bytes
+const int IEEE802_11_SIZE_RADIO = 18; //bytes
+const int IEEE802_11_SIZE_PRISM = 144; //bytes
+const int MAC_LEN = 6; //bytes
+const int FORMATTED_MACS_LEN = 35; //chars
+const int TIMEOUT = 30*60; //30 minutes
+const u_short IPV4_ETHERTYPE = 0x0800;
+const u_char TCP_PROTOCOL = 0x06;
+
+const char UNKNOWN_FILE_FORMAT[ERR_LEN] = "unknown file format";
+const char TRUNCATED_DUMP_FILE[ERR_LEN] = "truncated dump file";
+
 /* IP header */
 struct ip_hdr {
 	u_char vhl;		//version + header len

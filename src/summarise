@@ -1,8 +1,9 @@
 #!/bin/bash
 format='tcpdump'
 input='./'
+output='./out.csv'
 start=$(date +%s)
-tmpdir=$(mktemp -d ../tmp.XXXXXX)
+tmpdir=$(mktemp -d "../tmp.XXXXXX")
 tmpassoc=$(mktemp "${tmpdir}/summarise-associations.XXXXXX.csv")
 tmpaps=$(mktemp "${tmpdir}/access-points.XXXXXX.csv")
 
@@ -13,16 +14,19 @@ print_usage() {
     echo "-h,                    Show help"
     echo "-f [format],           Specify input format"
     echo "-i [input_dir],        Specify input directory"
+    echo "-o [output_file],      Specify output file"
     exit 0
 }
 
-while getopts 'f:hi:' flag; do
+while getopts 'f:hi:o:' flag; do
     case "${flag}" in
         f) format="${OPTARG}"
             ;;
         h) print_usage
             exit 1 ;;
         i) input="${OPTARG}"
+            ;;
+        o) output="${OPTARG}"
             ;;
         *) print_usage
             exit 1 ;;
@@ -45,7 +49,7 @@ then
     done
 fi
 echo "Finding access points and encounters..."
-matlab -nojvm -nodisplay -nosplash -batch "find_encounters('${tmpassoc}','${tmpaps}'); quit" 1>/dev/null
+matlab -nojvm -nodisplay -nosplash -batch "find_encounters('${tmpassoc}','${tmpaps}','${output}'); quit" 1>/dev/null
 ap=$(cat ${tmpaps} | wc -l)
 end=$(date +%s)
 runtime=$(expr ${end} - ${start})

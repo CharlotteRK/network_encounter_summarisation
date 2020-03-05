@@ -1,39 +1,44 @@
-function[] = find_encounters(file, ap_file, out_file)
+function[] = associations()
     global raw encounters access_points;
-    raw = readtable(file, "delimiter", ",");
+    raw = readtable("temp_associations.csv", "delimiter", ",");
 
     encounters = table('Size',[0 4],'VariableTypes',{'string','string','double', 'double'}, 'VariableNames',{'MAC1','MAC2','duration', 'frequency'});
-
-    get_access_points();
-    src = ismember(raw.source,access_points.MAC);
-    dest = ismember(raw.destination,access_points.MAC);
-    raw = raw(src | dest,:);
+    access_points = table('Size', [0 1], 'VariableTypes',{'string'}, 'VariableNames', {'MAC'});
+    
     sz = size(raw);
+    get_access_points();
     for i = 1:sz(1)
-        for j = i+1:sz(1)
-        	compare_associations(i, j);
-            if (raw(j,:).start >= raw(i,:).fin)
-            	break;
-            end
-        end
+       for j = i+1:sz(1)
+          compare_associations(i, j);
+          if (raw(j,:).start >= raw(i,:).fin)
+             break; 
+          end
+       end
     end
     format long;
-    writetable(access_points,ap_file,'Delimiter',',')
-    encounters.duration = encounters.duration ./ encounters.frequency;
-    writetable(encounters, out_file,'Delimiter',',')
+    writetable(access_points,'access_points.csv','Delimiter',',') 
+    encounters.duration = encounters.duration / encounters.frequency;
+    writetable(encounters,'encounters.csv','Delimiter',',')  
 end
 
 function[] = get_access_points()
     global raw access_points;
-    cond = raw.AP == 1;
-    access_points = table(unique(raw(cond,:).destination), 'VariableNames', {'MAC'});
+    sz = size(raw);
+    for i = 1:sz(1)
+        if (raw(i,:).AP == 1)
+            access_point = table(raw(i,:).destination, 'VariableNames', {'MAC'});
+            if(0==ismember(access_point,access_points))
+                access_points = [access_points;access_point];
+            end
+        end
+    end
 end
 
 function[] = compare_associations(i, j)
     global raw encounters access_points;
     [overlap, strt, fin] = find_overlap(i, j);
     if(overlap <= 0)
-       return;
+       return; 
     end
     if(strcmp(raw(i,:).source,raw(j,:).source))
         %if times match raw(i,1) is AP, encounter between raw(i,2) raw(j,2)
@@ -58,6 +63,9 @@ function[] = compare_associations(i, j)
     else
         return;
     end
+%     disp("lines:");
+%     disp(raw(i,:));
+%     disp(raw(j,:));
     access_point = table(ap, 'VariableNames', {'MAC'});
     enc_i = table(encounter_i, 'VariableNames', {'MAC'});
     enc_j = table(encounter_j, 'VariableNames', {'MAC'});
@@ -71,10 +79,10 @@ function[] = compare_associations(i, j)
             encounters = [encounters;encounter];
         else
             if(sz_i(1) > 0)
-                encounters(strcmp(encounters.MAC1, encounter_i) & strcmp(encounters.MAC2, encounter_j),:).duration = (line_i.duration + (fin-strt));
+                encounters(strcmp(encounters.MAC1, encounter_i) & strcmp(encounters.MAC2, encounter_j),:).duration = line_i.duration + fin-strt;
                 encounters(strcmp(encounters.MAC1, encounter_i) & strcmp(encounters.MAC2, encounter_j),:).frequency = line_i.frequency + 1;
             elseif(sz_j(1) > 0)
-                encounters(strcmp(encounters.MAC1, encounter_j) & strcmp(encounters.MAC2, encounter_i),:).duration = (line_j.duration + (fin-strt));
+                encounters(strcmp(encounters.MAC1, encounter_j) & strcmp(encounters.MAC2, encounter_i),:).duration = line_j.duration + fin-strt;
                 encounters(strcmp(encounters.MAC1, encounter_j) & strcmp(encounters.MAC2, encounter_i),:).frequency = line_j.frequency + 1;
             end
         end
