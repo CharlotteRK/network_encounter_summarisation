@@ -5,11 +5,15 @@ import json
 def main():
 	skipped_mis = 0
 	skipped_am = 0
-	config = loadConfig("/cs/home/ck204/Documents/CS4098/src/inc/configfile.cfg")
+	if(len(sys.argv) < 2):
+		sys.stderr.write("No config file given, process will terminate.")
+		exit(1)
+	config = loadConfig(sys.argv[1])
 	assocs = {}
+	sys.stdin.reconfigure(encoding='latin1')
 	for line in sys.stdin:
-		line = line.encode('utf-8')
-		line = line.decode('latin1')
+		#line = line.encode('utf-8')
+		#line = line.decode('latin1')
 
 		#need split char and seg no, regex of id (eg in case its an ip, mac, or named?)
 		if(isStart(config, line)):
@@ -79,8 +83,8 @@ def main():
 
 	if(skipped_am > 0):
 		sys.stderr.write("Ambiguious syslog specification given, skipped " + str(skipped_am) + " entries: output may not be accurate\n")
-	if(skipped_am > 0):
-		sys.stderr.write("Strict syslog specification given, skipped " + str(skipped_am) + " entries: output may not be accurate\n")
+	if(skipped_mis > 0):
+		sys.stderr.write("Strict syslog specification given, skipped " + str(skipped_mis) + " entries: output may not be accurate\n")
 
 def loadConfig(filename):
 	config = json.load(open(filename, 'r'))
