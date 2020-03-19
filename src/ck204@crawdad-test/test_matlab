@@ -1,0 +1,17 @@
+#!/bin/bash
+touch results.csv
+echo "lines,APs,time" > results.csv
+for lines in {100..1000..100}
+do
+    step=$(expr ${lines} / 20)
+    for n in $(eval echo "{1..${lines}..${step}}")
+    do
+        cat temp_associations.csv | python3 create_test_files.py 1 ${n} ${lines} > temp_associations_${n}AP.csv
+        start=$(date +%s)
+        matlab -nojvm -nodisplay -nosplash -batch "find_encounters('temp_associations_${n}AP.csv'); quit" 1>/dev/null
+        end=$(date +%s)
+        runtime=$(expr $end - $start)
+        echo "${lines},${n},$runtime" >> results.csv
+        rm temp_associations_${n}AP.csv
+    done
+done

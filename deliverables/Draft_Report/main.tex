@@ -1,0 +1,78 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{pdfpages}
+
+\title{Summarising Wireless Network Datasets}
+\author{Charlotte Knight}
+\date{September 2019}
+
+\usepackage{biblatex}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+
+\bibliography{references}
+
+\begin{document}
+
+\maketitle
+
+\section*{Abstract}
+\input{abstract.tex}
+\newpage
+\section*{Declaration}
+I declare that the material submitted for assessment is my own work except where credit is explicitly given to others by citation or acknowledgement. This work was performed during the current academic year except where otherwise stated. 
+The main text of this project report is 7,571 words long, including project specification and plan. 
+In submitting this project report to the University of St Andrews, I give permission for it to be made available for use in accordance with the regulations of the University Library. I also give permission for the title and abstract to be published and for copies of the report to be made and supplied at cost to any bonafide library or research worker, and to be made available on the World Wide Web. I retain the copyright in this work.
+
+\newpage
+\tableofcontents
+\newpage
+
+\section{Introduction}
+\input{intro.tex}
+
+\section{Context Survey}
+    \subsection{CRAWDAD Usage}
+    \input{context/usage.tex}
+    
+    \subsection{Formats}
+    \input{context/format.tex}
+
+\section{Requirements Specification}
+\input{requirements.tex}
+
+\section{Software Engineering Process}
+\input{process.tex}
+
+\section{Ethics}
+\input{ethics.tex}
+
+\section{Design}
+\input{design.tex}
+
+\section{Implementation}
+\input{implementation.tex}
+
+\section{Evaluation and Critical Appraisal}
+\input{evaluation.tex}
+
+\section{Conclusions}
+\input{conclusions.tex}
+
+\newpage
+
+\nocite{*}
+\printbibliography
+
+\appendix
+\newpage
+%\section{Appendix A: Testing Summary}
+%\input{testing.tex}
+
+%\section{Appendix B: User Manual}
+%\input{manual.tex}
+
+\section{Appendix A: Ethics Approval}
+\input{approval.tex}
+
+\end{document}
