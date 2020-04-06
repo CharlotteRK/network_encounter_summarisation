@@ -43,6 +43,8 @@ print_progress() {
     div=$(expr ${ten} / ${nofiles})
     round=$(echo ${div} | awk '{print int($1)}')
     case "${round}" in
+        0) echo -ne "[          ] associations extracted from $thisfile/$nofiles files\r"
+            ;;
         1) echo -ne "[#         ] associations extracted from $thisfile/$nofiles files\r"
             ;;
         2) echo -ne "[##        ] associations extracted from $thisfile/$nofiles files\r"
@@ -74,7 +76,7 @@ echo "Number of input files found: ${nofiles}"
 echo "Unzipping .gz files and extracting associations..."
 if [[ "${format}" == "tcpdump" ]]
 then
-    if [["${config}" != '']]
+    if [[ "${config}" != '' ]]
     then
         echo "WARNING: configuration file ${config} will not be used."
     fi
@@ -99,8 +101,9 @@ then
         thisfile=$(expr ${thisfile} + 1)
     done
 fi
-echo "Finding access points and encounters...                           "
-matlab -nojvm -nodisplay -nosplash -batch "find_encounters('${tmpassoc}','${tmpaps}','${output}'); quit"
+echo ""
+echo "Finding access points and encounters..."
+matlab -nojvm -nodisplay -nosplash -batch "find_events('${tmpassoc}','${tmpaps}','${output}'); quit"
 ap=$(cat ${tmpaps} | wc -l)
 end=$(date +%s)
 runtime=$(expr ${end} - ${start})
