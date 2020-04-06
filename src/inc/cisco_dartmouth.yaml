@@ -1,0 +1,30 @@
+start:
+  conditions:
+    split_char: " "
+    segments: "11"
+    "11": "%DOT11-6-ASSOC:"
+  format:
+    split_char: " "
+    segno_time: 1
+    segno_id1: 15
+    segno_id2: 5
+    id1_regex: "\\w\\w\\w\\w\\w\\w\\w\\w\\w\\w\\w\\w"
+    id2_regex: "\\w\\w*"
+    time_regex: "\\d\\d*"
+    id1_is_AP: "False"
+    id2_is_AP: "True"
+end:
+  conditions:
+    split_char: " "
+    segments: "11"
+    "11": "%DOT11-6-DISASSOC:"
+  format:
+    split_char: " "
+    segno_time: 1
+    segno_id1: 16
+    segno_id2: 5
+    id1_regex: "\\w\\w\\w\\w\\w\\w\\w\\w\\w\\w\\w\\w"
+    id2_regex: "\\w\\w*"
+    time_regex: "\\d\\d*"
+    id1_is_AP: "False"
+    id2_is_AP: "True"

@@ -1,6 +1,6 @@
 import sys
 import re
-import json
+import yaml
 
 def main():
 	skipped_mis = 0
@@ -17,10 +17,12 @@ def main():
 
 		#need split char and seg no, regex of id (eg in case its an ip, mac, or named?)
 		if(isStart(config, line)):
-			line_config = config["start"]
+			line_config = config["start"]["format"]
+			#sys.stderr.write("Start!")
 			type = "start"
 		elif(isEnd(config, line)):
-			line_config = config["end"]
+			line_config = config["end"]["format"]
+			#sys.stderr.write("End!")
 			type = "end"
 		else:
 			continue
@@ -77,9 +79,8 @@ def main():
 						print(id1 + "," + id2 + "," + str(assocs[id1]) + "," + str(time)+ ",1")
 					del assocs[id1]
 				except:
+					#assume beginning of association was before this file began
 					pass
-					#print("found end without start??")
-			#need source,destination,start,fin,AP format
 
 	if(skipped_am > 0):
 		sys.stderr.write("Ambiguious syslog specification given, skipped " + str(skipped_am) + " entries: output may not be accurate\n")
@@ -87,25 +88,25 @@ def main():
 		sys.stderr.write("Strict syslog specification given, skipped " + str(skipped_mis) + " entries: output may not be accurate\n")
 
 def loadConfig(filename):
-	config = json.load(open(filename, 'r'))
+	config = yaml.load(open(filename, 'r'), Loader=yaml.FullLoader)
 	try:
-		config["start"]["segno_time"] = int(config["start"]["segno_time"])
-		config["start"]["segno_id1"] = int(config["start"]["segno_id1"])
-		config["start"]["segno_id2"] = int(config["start"]["segno_id2"])
+		config["start"]["format"]["segno_time"] = int(config["start"]["format"]["segno_time"])
+		config["start"]["format"]["segno_id1"] = int(config["start"]["format"]["segno_id1"])
+		config["start"]["format"]["segno_id2"] = int(config["start"]["format"]["segno_id2"])
 	except:
 		sys.stderr.write("Malformed configuration, recieved unexpected non-interger value in start.\n")
 		quit(1)
 	try:
-		config["end"]["segno_time"] = int(config["end"]["segno_time"])
-		config["end"]["segno_id1"] = int(config["end"]["segno_id1"])
-		config["end"]["segno_id2"] = int(config["end"]["segno_id2"])
+		config["end"]["format"]["segno_time"] = int(config["end"]["format"]["segno_time"])
+		config["end"]["format"]["segno_id1"] = int(config["end"]["format"]["segno_id1"])
+		config["end"]["format"]["segno_id2"] = int(config["end"]["format"]["segno_id2"])
 	except:
 		sys.stderr.write("Malformed configuration, recieved unexpected non-interger value in end.\n")
 		quit(1)
-	if (config["start"]["id1_is_AP"] == "True" and config["start"]["id2_is_AP"] == "True"):
+	if (config["start"]["format"]["id1_is_AP"] == "True" and config["start"]["format"]["id2_is_AP"] == "True"):
 		sys.stderr.write("Malformed configuration, both devices specified as access points in start.\n")
 		quit(1)
-	if (config["end"]["id1_is_AP"] == "True" and config["end"]["id2_is_AP"] == "True"):
+	if (config["end"]["format"]["id1_is_AP"] == "True" and config["end"]["format"]["id2_is_AP"] == "True"):
 		sys.stderr.write("Malformed configuration, both devices specified as access points in end.\n")
 		quit(1)
 	return config
@@ -118,7 +119,7 @@ def isStart(config, line):
 	split_line = line.split(split_char)
 	for segment_no in segments_split:
 		try:
-			segment_regex = config["start"]["conditions"][segment_no]
+			segment_regex = config["start"]["conditions"][str(segment_no)]
 			segment_no = int(segment_no)
 			if len(split_line) < segment_no :
 				return False
@@ -148,7 +149,7 @@ def isEnd(config, line):
 	split_line = line.split(split_char)
 	for segment_no in segments_split:
 		try:
-			segment_regex = config["end"]["conditions"][segment_no]
+			segment_regex = config["end"]["conditions"][str(segment_no)]
 			segment_no = int(segment_no)
 			if len(split_line) < segment_no :
 				return False
