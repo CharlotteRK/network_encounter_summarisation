@@ -1,7 +1,7 @@
 \subsection{Data Flow}
 
 \subsubsection{Input and Processing}
-Multiple formats can be processed using the command line tool that has been developed during this project. Initially only TCPdump was considered, the tool took input in the form of binary PCAP files, this was then extended to allow syslog formats to be used as input. The output produced is in an identical format regardless of the input type. Data flow for the two input types is similar and detailed in figure \ref{fig:df_dia}.\newline
+Multiple formats can be processed using the command line tool that has been developed during this project. Processing multiple input formats allows for  Initially only TCPdump was considered, the tool took input in the form of binary PCAP files, this was then extended to allow syslog formats to be used as input. The output produced is in an identical format regardless of the input type. Data flow for the two input types is similar and detailed in figure \ref{fig:df_dia}.\newline
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.7\textwidth]{df_diagram.png}
@@ -40,7 +40,13 @@ The final output specifies the endpoints of encounters, the average time of enco
 The data sets which I am using in this project have in the past frequently been used for research into mobility and encounter patterns between users \cite{Scellato2011} \cite{Xiao2014} \cite{Hsu2010} \cite{Musolesi2009} \cite{Kosta2014} \cite{Kumar2009} \cite{Wei2013}. To maximise the usefulness of this project it is intended that the output from this  summarisation tool will be able to help in identifying whether a dataset is appropriate for use in mobility research, and to provide a standard format between multiple input formats which can be used for onward processing.
 
 \subsection{Associations} 
-In this project two identifiable devices are considered to be associated with each other for any period of time during which they are exchanging data. Although in this context only associations between one mobile node and one access point are relevant, a device might only be identified as an access point after several packets have been exchanged with it. It is therefore important that all associations are detected and recorded until a full list of access points is available.
+
+\begin{figure}[h]
+    \centerline{\includegraphics[width=1.2\textwidth]{hardware_to_assoc.png}}
+    \caption{This diagram shows a high level representation of two associations and the corresponding network connections which would cause them. If these two associations were active during the same period of time, an encounter would exist between the two mobile devices.}
+    \label{fig:high_level_dia}
+\end{figure}
+In this project two identifiable devices are considered to be associated with each other for any period of time during which they are exchanging data, a graphical representation of this is shown in figure \ref{fig:high_level_dia}. Although in this context only associations between one mobile node and one access point are relevant, a device might only be identified as an access point after several packets have been exchanged with it. It is therefore important that all associations are detected and recorded until a full list of access points is available.
 %(what? why?)
 \subsubsection{Identifying Access Points}
 Access points need to be determined as only the associations with access points are needed in the later stage of this processing. Access points may be identified from tcpdump traces by reading the flags in the TCP header of the packets sent to them. If the SYN control flag of TCP packets is checked, when it is set the destination of the packet can be determined to be an access point. Once a packet is identified as an access point a flag is set by it in the intermediate temporary associations CSV file. This flag is used in later processing to remove all irrelevant associations from the data and to create a record of all detected access points in the network.\\\\
@@ -67,14 +73,19 @@ When working with a tcpdump input, if no packets are transmitted between two ass
 
 \subsection{Encounters} 
 % (what? why?)
-Encounter between devices are considered to begin at the earliest time where both devices are connected to the same access point, and to end as soon as one of the two devices disassociates from the access point. To find details of an association it is necessary to know which devices identification belong to access points, and the times at which other devices were associated with each access point. These associations will then need to be matched for overlap in the time periods they were active, and the access point that was involved. \\\\
+\begin{figure}[h]
+    \centerline{\includegraphics[width=0.8\textwidth]{assoc_to_enc.png}}
+    \caption{This diagram shows a example of how associations may be matched together to find encounters, and how the encounters may then be output in both available formats. Timestamps here are left as Unix epoch times since only a fragment of data is shown. In actuality times would be converted to an offset (in seconds) from the beginning of the first encounter found.}
+    \label{fig:assoc_to_enc}
+\end{figure}
+Encounter between devices are considered to begin at the earliest time where both devices are connected to the same access point, and to end as soon as one of the two devices disassociates from the access point. An example of how an encounter would be found from a set of associations is shown in figure \ref{fig:assoc_to_enc}. To find details of an association it is necessary to know which devices identification belong to access points, and the times at which other devices were associated with each access point. These associations will then need to be matched for overlap in the time periods they were active, and the access point that was involved. \\\\
 It is likely that these matches will need to be found in a large set of associations, over a long time period, and many access points. It will therefore be important for the implementation of this to be efficient.
 % Encounters from associations
 
 
 \subsection{UI} % or lack of...
 \subsubsection{Overview}
-The tool produced by this project is intended to be used by researchers in fields such as network mobility and DTNs. I think it is therefore appropriate to assume that a command line UI is sufficient, as users will be familiar with using terminal applications. Spending time improving the efficiency and functionality of the tool is more important than developing graphical interface which can be used without experience of using the command line.\\\\
+The tool produced by this project is intended to be used by researchers in fields such as network mobility and DTNs. It is therefore appropriate to assume that a command line UI is sufficient, as users will be familiar with using terminal applications. Spending time improving the efficiency and functionality of the tool is more important than developing graphical interface which can be used without experience of using the command line. In addition to the unnecessary nature of a graphical interface, a command line tool gives users the ability to script and to pipe, this may be essential for researchers working with large quantities of data and complex data flows.\\\\
 When large datasets are used with the tool it may be the case that a significant amount of time is spent processing the data. Due to this it is important that the UI keeps the user updated on the progress made. This should allow a user to know that the tool is working, and if possible to show them how far through the process the tool is. It should be expected that a large dataset may take several minutes (or even hours) to process, but to minimise user frustration this should be made transparent. By keeping the user informed of the amount of progress made in real-time the user is less likely to believe something has gone wrong and terminate the process while progress is in reality being made.\\\\
 Ideally the tools UI should output a brief description of the stage of processing it is at, a progress bar which is updated in real time, and a small amount of additional information (such as directory names which are being used) so that the user knows a mistake hasn't been made. Hopefully this will allow users to avoid mistakes such as running a process for several minutes only to find the wrong input was used.\\\\
 \subsubsection{Runtime Options}
