@@ -1,0 +1,16 @@
+Progress report for period 02/04/20 to 14/04/20.
+
+Activity this week:
+- Made the remaining changes suggested in the feedback for report.
+- Integrated the merge and ONE compatible output code with the main project code.
+- Updated report diagrams and text to include new features.
+
+Goals for next week:
+- Final testing of code and continue making improvements to report text.
+- Aim to submit by Friday week 11 (24th April). 
+
+Items to discuss in meeting:
+-
+
+Points decided in meeting:
+-

@@ -22,11 +22,11 @@ Libpcap is a library written in C/C++ which provides functions for the analysis 
 In this stage of processing a hash map of ongoing associations is built up during the reading of all packets from a pcap file. The map is updated every time a packet is read which signals the beginning of an association or the end of one. In the case of the beginning of an association, the map is updated by setting the MAC address pair to the two addresses between which the packet is sent (this is used as the key), and start and end times of the association are set to be the timestamp on the packet. Every time that a packet is read between a pair of devices the end time of the pairs current association is updated to the packets timestamp. Each packet is also checked to find whether the destination node of the pair is an access point. Since packet-specific information will be discarded after this stage it is necessary to identify access points with a flag. When the association ends, the values stored in the map are output in string delimited by commas. The values which are output are the source and destination MAC addresses, and start and end times of the association, and a flag (0 or 1) value identifying whether the destination device is an access point. This output is used as input in the subsequent processing stage.
 
 \subsection{Stage Three; Finding Encounters} 
-
+\label{section:impl_stage3}
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{ap_vs_time.png}
-    \caption{This figure shows the dependence of execution time on the number of access points in a file of associations for a file length of 800 lines. The files used as input to the MatLab code for this evaluation were fabricated to include specific numbers of distinct access point IDs. A roughly linear positive correlation is seen between the number of access points and the execution time.}
+    \caption{This figure shows the dependence of execution time on the number of access points in a file of associations for a file length of 400 lines. The files used as input to the MatLab code for this evaluation were fabricated to include specific numbers of distinct access point IDs. A roughly linear positive correlation is seen between the number of access points and the execution time. Mean results are plotted with standard error over twenty repeats of each measurement.}
     \label{fig:AP_vs_time}
 \end{figure}
 
@@ -36,7 +36,7 @@ This stage of processing has three main aims, firstly to extract a list of acces
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{time_vs_lines.png}
-    \caption{This figure shows the dependence of execution time on the number of associations in the intermediate file. Results are mean values averaged over ten iterations of each number of assciations. The files used as input to the MatLab code for this evaluation were fabricated to include specific numbers associations and a static number of access points. A power two positive correlation is seen between the number of associations and the execution time.}
+    \caption{This figure shows the dependence of execution time on the number of associations in the intermediate file. Results are mean values averaged over ten iterations of each number of associations. The files used as input to the MatLab code for this evaluation were fabricated to include specific numbers associations and a static number of access points. A power two positive correlation is seen between the number of associations and the execution time. Standard errors are of the order of $1\times10^{-3}$ of the mean measurements, and so are not visible on the scale of this figure.}
     \label{fig:lines_vs_time}
 \end{figure}
 
