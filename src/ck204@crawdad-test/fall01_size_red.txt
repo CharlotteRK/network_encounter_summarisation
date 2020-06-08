@@ -1,4 +1,0 @@
-input: 11202166862 bytes, output: 38795 bytes
-input: 23039704632 bytes, output: 1876051 bytes
-input: 34645198259 bytes, output: 365642 bytes
-input: 4027064939 bytes, output: 2786 bytes
