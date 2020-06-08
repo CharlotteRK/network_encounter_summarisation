@@ -1,4 +1,0 @@
-100 CONN 1 2 up
-200 CONN 1 2 down
-300 CONN 0 2 up
-500 CONN 0 2 down
